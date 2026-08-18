@@ -1,9 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+import type { PedidosVariant } from '../../data/variants';
 
 // Bot de pedidos estilo WhatsApp. Máquina de estados guionizada, SIN backend.
 // Flujo: menú → armar pedido → dirección → confirmar → tracker del domicilio.
-
-const NEGOCIO = 'La Brasa Burger';
 
 interface MenuItem {
   id: string;
@@ -20,6 +19,13 @@ const MENU: MenuItem[] = [
 ];
 const DIRECCIONES = ['Calle 85 #12-30', 'Carrera 15 #93-45', 'Otra dirección…'];
 
+const DEFAULT_PEDIDOS: PedidosVariant = {
+  negocio: 'La Brasa Burger',
+  emoji: '🍔',
+  menu: MENU,
+  direcciones: DIRECCIONES,
+};
+
 const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 type Step = 'menu' | 'direccion' | 'confirmar' | 'tracking';
@@ -35,7 +41,12 @@ const TRACK_STAGES = [
   { label: 'Entregado', emoji: '✅', hint: '¡Que lo disfrutes!' },
 ];
 
-export default function PedidosDemo() {
+export default function PedidosDemo({ variant }: { variant?: PedidosVariant }) {
+  const cfg = variant ?? DEFAULT_PEDIDOS;
+  const NEGOCIO = cfg.negocio;
+  const MENU = cfg.menu;
+  const DIRECCIONES = cfg.direcciones ?? DEFAULT_PEDIDOS.direcciones!;
+  const headerEmoji = cfg.emoji;
   const [msgs, setMsgs] = useState<Bubble[]>([
     { from: 'bot', text: `¡Hola! 👋 Bienvenido a ${NEGOCIO}. ¿Qué se te antoja hoy? Toca para agregar 👇` },
   ]);
@@ -113,7 +124,7 @@ export default function PedidosDemo() {
       <div className="overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
         {/* Header estilo WhatsApp */}
         <div className="flex items-center gap-3 bg-[#075e54] px-4 py-3 text-white">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-xl">🍔</span>
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-white/15 text-xl">{headerEmoji}</span>
           <div>
             <p className="font-semibold leading-tight">{NEGOCIO}</p>
             <p className="flex items-center gap-1.5 text-xs text-white/80">

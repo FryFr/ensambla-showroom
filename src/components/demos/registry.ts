@@ -19,7 +19,8 @@ import BotInternoDemo from './BotInternoDemo';
 import SyncDemo from './SyncDemo';
 import RecuperadorDemo from './RecuperadorDemo';
 
-export const demoComponents: Record<string, ComponentType> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const demoComponents: Record<string, ComponentType<any>> = {
   chatbot: ChatbotDemo,
   landing: LandingDemo,
   tienda: TiendaDemo,

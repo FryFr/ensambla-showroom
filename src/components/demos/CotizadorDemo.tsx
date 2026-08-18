@@ -1,33 +1,37 @@
 import { useMemo, useState } from 'react';
+import type { CotizadorVariant } from '../../data/variants';
 
 // Cotizador instantáneo. Fachada: recalcula un rango de precio en vivo.
-// Negocio ficticio: reformas del hogar "Obra Fina".
+// Data genérica (fallback): reformas del hogar "Obra Fina". Con ?nicho= usa otra.
 
-const NEGOCIO = 'Obra Fina';
 const ARS = (n: number) => '$' + Math.round(n).toLocaleString('es-CO');
 
-const TRABAJOS = [
-  { id: 'pintura', nombre: 'Pintura', emoji: '🎨', base: 60000 },
-  { id: 'plomeria', nombre: 'Plomería', emoji: '🔧', base: 45000 },
-  { id: 'electricidad', nombre: 'Electricidad', emoji: '💡', base: 55000 },
-  { id: 'completa', nombre: 'Reforma completa', emoji: '🏗️', base: 180000 },
-];
-
-const TAMANOS = [
-  { id: 'chico', nombre: 'Ambiente chico', factor: 1, hint: 'hasta 15 m²' },
-  { id: 'mediano', nombre: 'Mediano', factor: 1.8, hint: '15–35 m²' },
-  { id: 'grande', nombre: 'Grande', factor: 3, hint: 'más de 35 m²' },
-];
-
-const EXTRAS = [
-  { id: 'materiales', nombre: 'Materiales incluidos', add: 0.35 },
-  { id: 'urgente', nombre: 'Entrega urgente (48 h)', add: 0.25 },
-  { id: 'garantia', nombre: 'Garantía extendida', add: 0.1 },
-];
+const DEFAULT_COTIZADOR: CotizadorVariant = {
+  negocio: 'Obra Fina',
+  icono: '🧮',
+  trabajos: [
+    { id: 'pintura', nombre: 'Pintura', emoji: '🎨', base: 60000 },
+    { id: 'plomeria', nombre: 'Plomería', emoji: '🔧', base: 45000 },
+    { id: 'electricidad', nombre: 'Electricidad', emoji: '💡', base: 55000 },
+    { id: 'completa', nombre: 'Reforma completa', emoji: '🏗️', base: 180000 },
+  ],
+  tamanos: [
+    { id: 'chico', nombre: 'Ambiente chico', factor: 1, hint: 'hasta 15 m²' },
+    { id: 'mediano', nombre: 'Mediano', factor: 1.8, hint: '15–35 m²' },
+    { id: 'grande', nombre: 'Grande', factor: 3, hint: 'más de 35 m²' },
+  ],
+  extras: [
+    { id: 'materiales', nombre: 'Materiales incluidos', add: 0.35 },
+    { id: 'urgente', nombre: 'Entrega urgente (48 h)', add: 0.25 },
+    { id: 'garantia', nombre: 'Garantía extendida', add: 0.1 },
+  ],
+};
 
 type Step = 'form' | 'enviado';
 
-export default function CotizadorDemo() {
+export default function CotizadorDemo({ variant }: { variant?: CotizadorVariant }) {
+  const cfg = variant ?? DEFAULT_COTIZADOR;
+  const { negocio: NEGOCIO, icono, trabajos: TRABAJOS, tamanos: TAMANOS, extras: EXTRAS } = cfg;
   const [trabajo, setTrabajo] = useState(TRABAJOS[0].id);
   const [tamano, setTamano] = useState(TAMANOS[0].id);
   const [extras, setExtras] = useState<Record<string, boolean>>({});
@@ -49,7 +53,7 @@ export default function CotizadorDemo() {
         {/* Opciones */}
         <div className="p-6">
           <div className="mb-5 flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-full bg-accent/15 text-xl">🧮</span>
+            <span className="grid h-10 w-10 place-items-center rounded-full bg-accent/15 text-xl">{icono}</span>
             <div>
               <p className="font-display font-semibold leading-tight">{NEGOCIO}</p>
               <p className="techlabel">Cotización al instante</p>
@@ -131,7 +135,7 @@ export default function CotizadorDemo() {
             <div className="flex flex-1 flex-col items-center justify-center text-center">
               {/* Preview de burbuja de WhatsApp (fachada) */}
               <div className="success-check w-full rounded-2xl bg-[#005c4b] p-3 text-left text-sm text-white">
-                <p className="font-semibold">Obra Fina · WhatsApp</p>
+                <p className="font-semibold">{NEGOCIO} · WhatsApp</p>
                 <p className="mt-1 text-white/90">
                   ¡Hola! Tu presupuesto para <b>{quote.trabajo.nombre.toLowerCase()}</b> ({quote.tamano.nombre.toLowerCase()}) es de <b>{ARS(quote.min)}</b> a <b>{ARS(quote.max)}</b>. ¿Coordinamos una visita? 🛠️
                 </p>

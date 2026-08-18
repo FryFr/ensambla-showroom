@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
+import type { TurnosVariant } from '../../data/variants';
 
 // Turnos con recordatorios anti-ausentismo. Fachada, sin backend.
 // Flujo: servicio → día y hora → confirmar → línea de recordatorios automáticos.
-
-const NEGOCIO = 'Studio Norte';
 
 interface Servicio {
   id: string;
@@ -31,13 +30,27 @@ const RECORDATORIOS = [
   { emoji: '🎉', title: '¡Asististe!', detail: 'Sin ausencias, agenda llena' },
 ];
 
+const DEFAULT_TURNOS: TurnosVariant = {
+  negocio: 'Studio Norte',
+  emoji: '💈',
+  headerHint: 'Reserva tu turno online',
+  servicios: SERVICIOS,
+  recordatorios: RECORDATORIOS,
+};
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 const prefersReduced = () =>
   typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 
 type Step = 'servicio' | 'horario' | 'confirmado';
 
-export default function TurnosDemo() {
+export default function TurnosDemo({ variant }: { variant?: TurnosVariant }) {
+  const cfg = variant ?? DEFAULT_TURNOS;
+  const NEGOCIO = cfg.negocio;
+  const SERVICIOS = cfg.servicios;
+  const RECORDATORIOS = cfg.recordatorios ?? DEFAULT_TURNOS.recordatorios!;
+  const headerEmoji = cfg.emoji;
+  const headerHint = cfg.headerHint ?? 'Reserva tu turno online';
   const [step, setStep] = useState<Step>('servicio');
   const [servicio, setServicio] = useState<Servicio | null>(null);
   const [dia, setDia] = useState<string | null>(null);
@@ -72,10 +85,10 @@ export default function TurnosDemo() {
       <div className="card overflow-hidden p-0">
         {/* Header */}
         <div className="flex items-center gap-3 border-b border-white/5 bg-white/[0.02] px-5 py-3.5">
-          <span className="grid h-10 w-10 place-items-center rounded-full bg-accent-lime/15 text-xl">💈</span>
+          <span className="grid h-10 w-10 place-items-center rounded-full bg-accent-lime/15 text-xl">{headerEmoji}</span>
           <div>
             <p className="font-display font-semibold leading-tight">{NEGOCIO}</p>
-            <p className="techlabel">Reserva tu turno online</p>
+            <p className="techlabel">{headerHint}</p>
           </div>
           <span className="ml-auto techlabel hidden sm:block">Paso {step === 'servicio' ? '1' : step === 'horario' ? '2' : '3'}/3</span>
         </div>
