@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 // Panel de control "reemplazá la planilla". Fachada con datos falsos que se
 // actualizan en vivo (setInterval). Comercio ficticio: "Almacén Central".
 
-const ARS = (n: number) => '$' + n.toLocaleString('es-AR');
+const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 const VENTAS_SEMANA = [
   { dia: 'Lun', v: 62 },
@@ -15,9 +15,9 @@ const VENTAS_SEMANA = [
   { dia: 'Hoy', v: 43 },
 ];
 
-const PRODUCTOS_VENTA = ['Café molido 500g', 'Yerba 1kg', 'Aceite de oliva', 'Galletitas', 'Gaseosa 2,25L', 'Fideos', 'Arroz 1kg'];
+const PRODUCTOS_VENTA = ['Café molido 500g', 'Panela 1kg', 'Aceite de oliva', 'Galletas', 'Gaseosa 2,25L', 'Fideos', 'Arroz 1kg'];
 const STOCK_BAJO = [
-  { nombre: 'Yerba 1kg', quedan: 3 },
+  { nombre: 'Panela 1kg', quedan: 3 },
   { nombre: 'Aceite de oliva', quedan: 2 },
   { nombre: 'Papel higiénico x4', quedan: 5 },
 ];

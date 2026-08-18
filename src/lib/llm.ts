@@ -17,7 +17,10 @@ export class MissingApiKeyError extends Error {
 }
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const DEFAULT_MODEL = 'llama-3.3-70b-versatile';
+// Modelo por defecto centralizado. Override en runtime con la env var GROQ_MODEL.
+// OJO: Groq deprecó llama-3.x (apagado 16/08/2026). Verificar en console.groq.com/docs/deprecations
+// antes de cambiar; usar modelos estables (no *preview*).
+const DEFAULT_MODEL = 'openai/gpt-oss-120b';
 
 /**
  * Envía mensajes al LLM y devuelve el texto de la respuesta.

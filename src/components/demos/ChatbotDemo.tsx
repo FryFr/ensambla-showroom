@@ -9,10 +9,10 @@ const NEGOCIO = 'Café Latitud';
 
 const SUGERENCIAS = [
   '¿Qué horarios tienen?',
-  '¿Se puede ir a trabajar con la notebook?',
+  '¿Se puede ir a trabajar con el portátil?',
   '¿Tienen opciones veganas?',
   '¿Hacen delivery?',
-  '¿Cuánto sale el brunch?',
+  '¿Cuánto vale el brunch?',
 ];
 
 const SALUDO: Msg = {
@@ -110,7 +110,7 @@ export default function ChatbotDemo() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder={`Escríbele a ${NEGOCIO}…`}
-          aria-label="Escribí tu mensaje"
+          aria-label="Escribe tu mensaje"
           className="field flex-1"
         />
         <button

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 // Bot de pedidos estilo WhatsApp. Máquina de estados guionizada, SIN backend.
 // Flujo: menú → armar pedido → dirección → confirmar → tracker del domicilio.
 
-const NEGOCIO = 'La Birra Burger';
+const NEGOCIO = 'La Brasa Burger';
 
 interface MenuItem {
   id: string;
@@ -18,9 +18,9 @@ const MENU: MenuItem[] = [
   { id: 'papas', nombre: 'Papas con cheddar', precio: 4200, emoji: '🍟' },
   { id: 'gaseosa', nombre: 'Gaseosa 500ml', precio: 2000, emoji: '🥤' },
 ];
-const DIRECCIONES = ['Av. Siempreviva 742', 'Corrientes 3480', 'Otra dirección…'];
+const DIRECCIONES = ['Calle 85 #12-30', 'Carrera 15 #93-45', 'Otra dirección…'];
 
-const ARS = (n: number) => '$' + n.toLocaleString('es-AR');
+const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 type Step = 'menu' | 'direccion' | 'confirmar' | 'tracking';
 interface Bubble {

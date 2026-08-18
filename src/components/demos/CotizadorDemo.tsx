@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 // Negocio ficticio: reformas del hogar "Obra Fina".
 
 const NEGOCIO = 'Obra Fina';
-const ARS = (n: number) => '$' + Math.round(n).toLocaleString('es-AR');
+const ARS = (n: number) => '$' + Math.round(n).toLocaleString('es-CO');
 
 const TRABAJOS = [
   { id: 'pintura', nombre: 'Pintura', emoji: '🎨', base: 60000 },

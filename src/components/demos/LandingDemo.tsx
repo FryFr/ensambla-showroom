@@ -175,7 +175,7 @@ function LeadCta() {
           <div className="success-check py-6">
             <div className="text-4xl">✓</div>
             <h2 className="mt-3 text-2xl font-bold">¡Listo! Te escribimos en breve.</h2>
-            <p className="mt-1 text-white/80">Revisá tu correo para empezar la prueba.</p>
+            <p className="mt-1 text-white/80">Revisa tu correo para empezar la prueba.</p>
           </div>
         ) : (
           <>

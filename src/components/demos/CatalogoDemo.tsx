@@ -5,7 +5,7 @@ import BrowserFrame from './BrowserFrame';
 // El "checkout" arma un mensaje de WhatsApp con el pedido. Marca ficticia: "Índigo".
 
 const NEGOCIO = 'Índigo';
-const ARS = (n: number) => '$' + n.toLocaleString('es-AR');
+const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 interface Prod {
   id: string;
@@ -15,12 +15,12 @@ interface Prod {
   grad: string;
 }
 const PRODUCTOS: Prod[] = [
-  { id: 'remera', nombre: 'Remera oversize', precio: 18900, emoji: '👕', grad: 'linear-gradient(135deg,#22303f,#3a5a7a)' },
-  { id: 'buzo', nombre: 'Buzo frisa', precio: 34900, emoji: '🧥', grad: 'linear-gradient(135deg,#2a2440,#4a3f7a)' },
+  { id: 'remera', nombre: 'Camiseta oversize', precio: 18900, emoji: '👕', grad: 'linear-gradient(135deg,#22303f,#3a5a7a)' },
+  { id: 'buzo', nombre: 'Buzo/sudadera', precio: 34900, emoji: '🧥', grad: 'linear-gradient(135deg,#2a2440,#4a3f7a)' },
   { id: 'jean', nombre: 'Jean mom', precio: 42900, emoji: '👖', grad: 'linear-gradient(135deg,#1f2b3d,#345066)' },
   { id: 'vestido', nombre: 'Vestido lino', precio: 38900, emoji: '👗', grad: 'linear-gradient(135deg,#3d223a,#7a3a63)' },
   { id: 'gorra', nombre: 'Gorra clásica', precio: 12900, emoji: '🧢', grad: 'linear-gradient(135deg,#22402f,#3a6b4a)' },
-  { id: 'zapas', nombre: 'Zapatillas urbanas', precio: 64900, emoji: '👟', grad: 'linear-gradient(135deg,#3a2f22,#6b563a)' },
+  { id: 'zapas', nombre: 'Tenis urbanos', precio: 64900, emoji: '👟', grad: 'linear-gradient(135deg,#3a2f22,#6b563a)' },
 ];
 
 export default function CatalogoDemo() {

@@ -1,29 +1,29 @@
 {
   "negocio": "Café Latitud",
-  "descripcion": "Café de especialidad y brunch en el barrio de Palermo. Tostamos nuestro propio café y trabajamos con productores de la región. Ambiente para trabajar, reuniones cortas o simplemente pasar un buen rato.",
+  "descripcion": "Café de especialidad y brunch en Chapinero, Bogotá. Tostamos nuestro propio café y trabajamos con productores del Eje Cafetero. Ambiente para trabajar, reuniones cortas o simplemente pasar un buen rato.",
   "ubicacion": {
-    "direccion": "Av. Costanera 1420, Palermo, Buenos Aires",
-    "referencia": "A media cuadra de la plaza, esquina con Gorriti",
-    "estacionamiento": "Hay estacionamiento medido en la calle y una playa a 100 metros."
+    "direccion": "Calle 70 #5-23, Chapinero, Bogotá",
+    "referencia": "A media cuadra del parque, esquina con la Carrera 5",
+    "estacionamiento": "Hay parqueadero en la calle y un parqueadero público a 100 metros."
   },
   "horarios": {
     "lunes_a_viernes": "8:00 a 20:00",
     "sabados": "9:00 a 21:00",
     "domingos": "9:00 a 14:00",
-    "feriados": "Abrimos de 10:00 a 15:00, salvo 25/12 y 1/1 que cerramos."
+    "festivos": "Abrimos de 10:00 a 15:00, salvo 25/12 y 1/1 que cerramos."
   },
   "menu_destacado": [
-    { "item": "Flat white", "precio": "$3.200", "notas": "Nuestro café insignia, con leche o bebida vegetal sin cargo." },
-    { "item": "Brunch Latitud", "precio": "$9.800", "notas": "Huevos, palta, pan de masa madre, fruta y café o jugo. Para 1 persona." },
-    { "item": "Tostado de campo", "precio": "$5.400", "notas": "Jamón crudo, queso brie y rúcula en pan de masa madre." },
-    { "item": "Medialunas (x3)", "precio": "$2.100", "notas": "De manteca, horneadas en el día." },
-    { "item": "Cheesecake de frutos rojos", "precio": "$4.600", "notas": "Porción individual, sin gluten." }
+    { "item": "Flat white", "precio": "$9.000", "notas": "Nuestro café insignia, con leche o bebida vegetal sin costo adicional." },
+    { "item": "Brunch Latitud", "precio": "$28.000", "notas": "Huevos, aguacate, pan de masa madre, fruta y café o jugo. Para 1 persona." },
+    { "item": "Tostado de campo", "precio": "$19.000", "notas": "Jamón serrano, queso brie y rúgula en pan de masa madre." },
+    { "item": "Croissants (x3)", "precio": "$8.500", "notas": "De mantequilla, horneados en el día." },
+    { "item": "Cheesecake de frutos rojos", "precio": "$14.000", "notas": "Porción individual, sin gluten." }
   ],
   "opciones_dieteticas": "Tenemos opciones sin gluten, sin lactosa y veganas claramente marcadas en la carta. La cocina no es 100% libre de gluten, así que no es apta para celíacos con sensibilidad extrema.",
   "delivery": {
     "disponible": true,
-    "apps": ["PedidosYa", "Rappi"],
-    "propio": "También tomamos pedidos por WhatsApp al 11-5555-1420 para envíos en un radio de 2 km.",
+    "apps": ["Rappi", "Didi Food"],
+    "propio": "También tomamos pedidos por WhatsApp al 320 555 1420 para envíos en un radio de 2 km.",
     "tiempo_estimado": "30 a 45 minutos según la zona."
   },
   "reservas": {
@@ -35,16 +35,16 @@
     "wifi": "Wi-Fi libre y rápido para clientes. La contraseña está en cada mesa.",
     "enchufes": "Hay enchufes en casi todas las mesas, ideal para trabajar.",
     "mascotas": "Pet friendly en el sector de afuera.",
-    "medios_de_pago": "Efectivo, débito, crédito, Mercado Pago y transferencia.",
+    "medios_de_pago": "Efectivo, débito, crédito, Nequi, Daviplata y transferencia.",
     "cafe_en_grano": "Vendemos nuestro café en grano o molido, bolsas de 250g y 1kg, para llevar a casa."
   },
   "faq": [
-    { "pregunta": "¿Tienen para trabajar con la notebook?", "respuesta": "Sí, es uno de nuestros fuertes: wifi rápido, enchufes en casi todas las mesas y buen café. Pedimos consumir algo y en horarios de mucha gente liberar la mesa después de 2 horas." },
+    { "pregunta": "¿Tienen para trabajar con el portátil?", "respuesta": "Sí, es uno de nuestros fuertes: wifi rápido, enchufes en casi todas las mesas y buen café. Pedimos consumir algo y en horarios de mucha gente liberar la mesa después de 2 horas." },
     { "pregunta": "¿Hacen café para llevar?", "respuesta": "Sí, todo el menú de cafetería está disponible para llevar." },
-    { "pregunta": "¿Tienen opciones para veganos?", "respuesta": "Sí, hay leches vegetales sin cargo y varias opciones de comida vegana marcadas en la carta." }
+    { "pregunta": "¿Tienen opciones para veganos?", "respuesta": "Sí, hay leches vegetales sin costo y varias opciones de comida vegana marcadas en la carta." }
   ],
   "contacto": {
-    "whatsapp": "11-5555-1420",
+    "whatsapp": "320 555 1420",
     "instagram": "@cafelatitud",
     "email": "hola@cafelatitud.example"
   }

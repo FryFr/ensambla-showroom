@@ -22,11 +22,11 @@ const SERVICIOS: Servicio[] = [
 const DIAS = ['Hoy', 'Mañana', 'Sáb 9', 'Lun 11'];
 const HORARIOS = ['10:00', '11:30', '13:00', '15:30', '17:00', '18:30'];
 
-const ARS = (n: number) => '$' + n.toLocaleString('es-AR');
+const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 const RECORDATORIOS = [
   { emoji: '✅', title: 'Turno confirmado', detail: 'Te llega la confirmación por WhatsApp' },
-  { emoji: '📲', title: 'Recordatorio 24 h antes', detail: '"Te esperamos mañana, ¿confirmás?"' },
+  { emoji: '📲', title: 'Recordatorio 24 h antes', detail: '"Te esperamos mañana, ¿confirmas?"' },
   { emoji: '⏰', title: 'Recordatorio 2 h antes', detail: '"Tu turno es en un rato 💈"' },
   { emoji: '🎉', title: '¡Asististe!', detail: 'Sin ausencias, agenda llena' },
 ];

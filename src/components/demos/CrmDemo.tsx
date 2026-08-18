@@ -30,7 +30,7 @@ interface Lead {
   notas: string;
 }
 
-const ARS = (n: number) => '$' + n.toLocaleString('es-AR');
+const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 const LEADS_INICIALES: Lead[] = [
   { id: 'l1', nombre: 'María González', empresa: 'Panadería El Trigo', valor: 180000, fuente: 'Instagram', stage: 'nuevo', notas: 'Quiere una tienda online para vender por delivery.' },

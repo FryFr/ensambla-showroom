@@ -26,7 +26,7 @@ const PRODUCTOS: Producto[] = [
 const CATEGORIAS = ['Todo', 'Plantas', 'Macetas', 'Deco'] as const;
 type Cat = (typeof CATEGORIAS)[number];
 
-const ARS = (n: number) => '$' + n.toLocaleString('es-AR');
+const ARS = (n: number) => '$' + n.toLocaleString('es-CO');
 
 // ── Estado del carrito (en memoria) ─────────────────────────────
 interface CartItem {

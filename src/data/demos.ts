@@ -34,6 +34,8 @@ export interface Demo {
   hasBackend?: boolean;
   /** Emoji/icono simple para el preview placeholder */
   icon: string;
+  /** Tiempo estimado de entrega (diferenciador del sitio) */
+  tiempo: string;
 }
 
 export const PILLARS: Record<Pillar, { label: string; blurb: string }> = {
@@ -57,6 +59,7 @@ export const demos: Demo[] = [
     pillar: 'web',
     kicker: 'WEB · CONVERSIÓN',
     icon: '🚀',
+    tiempo: '3 días',
     span: 'md',
     includes: [
       'Hero con propuesta de valor clara',
@@ -73,6 +76,7 @@ export const demos: Demo[] = [
     pillar: 'web',
     kicker: 'WEB · E-COMMERCE',
     icon: '🛒',
+    tiempo: '3-5 días',
     span: 'lg',
     includes: [
       'Catálogo con filtros por categoría',
@@ -89,6 +93,7 @@ export const demos: Demo[] = [
     pillar: 'web',
     kicker: 'WEB · CORPORATIVO',
     icon: '🏢',
+    tiempo: '3 días',
     span: 'sm',
     includes: [
       'Páginas: Inicio, Servicios, Nosotros, Contacto',
@@ -107,6 +112,7 @@ export const demos: Demo[] = [
     pillar: 'ia',
     kicker: 'IA · ATENCIÓN 24/7',
     icon: '💬',
+    tiempo: '3-4 días',
     span: 'lg',
     featured: true,
     hasBackend: true,
@@ -125,6 +131,7 @@ export const demos: Demo[] = [
     pillar: 'ia',
     kicker: 'IA · PEDIDOS',
     icon: '🛵',
+    tiempo: '3-4 días',
     span: 'md',
     includes: [
       'Chat guiado con botones de respuesta rápida',
@@ -141,6 +148,7 @@ export const demos: Demo[] = [
     pillar: 'ia',
     kicker: 'IA · VENTAS',
     icon: '📊',
+    tiempo: '3-4 días',
     span: 'sm',
     includes: [
       'Pipeline visual arrastrando leads por etapa',
@@ -157,6 +165,7 @@ export const demos: Demo[] = [
     pillar: 'ia',
     kicker: 'IA · AUTOMATIZACIÓN',
     icon: '🔗',
+    tiempo: '3-5 días',
     span: 'lg',
     includes: [
       'Conecta tus canales y herramientas',
@@ -173,6 +182,7 @@ export const demos: Demo[] = [
     pillar: 'ia',
     kicker: 'IA · AGENDA',
     icon: '📅',
+    tiempo: '3 días',
     span: 'md',
     includes: [
       'Reserva de turnos online 24/7',
@@ -189,6 +199,7 @@ export const demos: Demo[] = [
     pillar: 'ia',
     kicker: 'IA · VENTAS',
     icon: '🧮',
+    tiempo: '3 días',
     span: 'md',
     includes: [
       'Presupuesto automático en segundos',
@@ -205,6 +216,7 @@ export const demos: Demo[] = [
     pillar: 'web',
     kicker: 'WEB · VENTAS',
     icon: '📲',
+    tiempo: '3 días',
     span: 'md',
     includes: [
       'Catálogo lindo y fácil de actualizar',
@@ -221,6 +233,7 @@ export const demos: Demo[] = [
     pillar: 'web',
     kicker: 'WEB · OPERACIONES',
     icon: '📈',
+    tiempo: '3-5 días',
     span: 'lg',
     includes: [
       'Ventas, stock y métricas en vivo',
@@ -237,6 +250,7 @@ export const demos: Demo[] = [
     pillar: 'web',
     kicker: 'WEB · EDUCACIÓN',
     icon: '🎓',
+    tiempo: '3 días',
     span: 'sm',
     includes: [
       'Landing de curso que convierte',

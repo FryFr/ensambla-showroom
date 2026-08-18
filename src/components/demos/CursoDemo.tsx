@@ -22,7 +22,7 @@ const MODULOS: Modulo[] = [
 ];
 
 export default function CursoDemo() {
-  const [inscripto, setInscripto] = useState(false);
+  const [inscripto, setInscrito] = useState(false);
   const [aviso, setAviso] = useState(false);
 
   const libres = MODULOS.filter((m) => m.libre).length;
@@ -41,11 +41,11 @@ export default function CursoDemo() {
         <nav className="sticky top-0 z-10 flex items-center justify-between border-b border-white/10 bg-[#120f1a]/95 px-5 py-3.5 backdrop-blur">
           <span className="flex items-center gap-2 font-bold">📷 FotoConElCel</span>
           <button
-            onClick={() => setInscripto(true)}
+            onClick={() => setInscrito(true)}
             className="rounded-full px-4 py-1.5 text-sm font-semibold text-[#1a1020]"
             style={{ background: CORAL }}
           >
-            {inscripto ? '✓ Inscripto' : 'Inscribirme'}
+            {inscripto ? '✓ Inscrito' : 'Inscribirme'}
           </button>
         </nav>
 
@@ -139,7 +139,7 @@ export default function CursoDemo() {
               <p className="mt-2 font-bold">¡Bienvenido al curso!</p>
               <p className="mt-1 text-sm text-[#b7aec6]">Ya tienes acceso a los 6 módulos. Así de simple vende un curso online.</p>
               <button
-                onClick={() => setInscripto(false)}
+                onClick={() => setInscrito(false)}
                 className="mt-4 rounded-full border border-white/20 px-4 py-2 text-sm font-medium"
               >
                 Ver de nuevo
@@ -150,7 +150,7 @@ export default function CursoDemo() {
               <h2 className="text-xl font-extrabold text-[#1a1020]">Empieza hoy mismo</h2>
               <p className="mt-1 text-sm text-[#1a1020]/80">Acceso de por vida. Garantía de 7 días.</p>
               <button
-                onClick={() => setInscripto(true)}
+                onClick={() => setInscrito(true)}
                 className="mt-4 rounded-full bg-[#120f1a] px-6 py-3 font-semibold text-white"
               >
                 Inscribirme al curso

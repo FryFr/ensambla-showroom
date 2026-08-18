@@ -107,7 +107,7 @@ Definidas en [`env.example`](env.example):
 | Variable | Requerida | Descripción |
 | -------- | :-------: | ----------- |
 | `GROQ_API_KEY` | Sí *(chatbot)* | API key de [Groq](https://console.groq.com/keys). Gratis. |
-| `GROQ_MODEL` | No | Modelo de Groq. Default: `llama-3.3-70b-versatile`. |
+| `GROQ_MODEL` | No | Modelo de Groq. Default: `openai/gpt-oss-120b`. |
 | `PUBLIC_WHATSAPP_NUMBER` | Recomendada | Número de WhatsApp para los CTA (formato internacional, solo dígitos). |
 
 > [!NOTE]

@@ -18,7 +18,7 @@ export default function InformativoDemo() {
   const [page, setPage] = useState<Page>('inicio');
 
   return (
-    <BrowserFrame url="nucleo.com.ar" height="42rem">
+    <BrowserFrame url="nucleo.com.co" height="42rem">
       <div className="min-h-full bg-white text-[#1a2233]">
         {/* Nav */}
         <nav className="sticky top-0 z-10 flex items-center justify-between border-b border-black/10 bg-white/95 px-6 py-3.5 backdrop-blur">
@@ -78,7 +78,7 @@ function Inicio({ onNav }: { onNav: (p: Page) => void }) {
           Tu contabilidad, ordenada y sin sorpresas.
         </h1>
         <p className="mt-3 max-w-md text-white/85">
-          Acompañamos a pymes y monotributistas con impuestos, sueldos y balances. Tú haces crecer tu negocio, nosotros los números.
+          Acompañamos a pymes y independientes con impuestos, sueldos y balances. Tú haces crecer tu negocio, nosotros los números.
         </p>
         <button
           onClick={() => onNav('contacto')}
@@ -92,7 +92,7 @@ function Inicio({ onNav }: { onNav: (p: Page) => void }) {
         {[
           { i: '📊', t: 'Impuestos al día', d: 'Presentaciones en fecha, sin multas ni corridas.' },
           { i: '👥', t: 'Sueldos y RRHH', d: 'Liquidación de haberes y altas tempranas.' },
-          { i: '📈', t: 'Balances claros', d: 'Estados contables que entendés y te sirven para decidir.' },
+          { i: '📈', t: 'Balances claros', d: 'Estados contables que entiendes y te sirven para decidir.' },
         ].map((c) => (
           <div key={c.t} className="rounded-2xl border border-black/8 bg-white p-5 shadow-sm">
             <div className="text-2xl">{c.i}</div>
@@ -107,10 +107,10 @@ function Inicio({ onNav }: { onNav: (p: Page) => void }) {
 
 function Servicios() {
   const servicios = [
-    { t: 'Monotributo', d: 'Alta, recategorización y control mensual para que nunca te caigas del régimen.' },
-    { t: 'Impuestos', d: 'IVA, Ganancias, Ingresos Brutos. Cálculo, presentación y planificación.' },
-    { t: 'Sueldos', d: 'Liquidación de haberes, cargas sociales, F.931 y recibos digitales.' },
-    { t: 'Sociedades', d: 'Constitución de SAS/SRL, libros societarios y balances anuales.' },
+    { t: 'Régimen simple', d: 'Inscripción, actualización y control mensual para que cumplas sin sustos.' },
+    { t: 'Impuestos', d: 'IVA, Renta, ICA. Cálculo, presentación y planificación.' },
+    { t: 'Sueldos', d: 'Liquidación de nómina, seguridad social (PILA) y desprendibles digitales.' },
+    { t: 'Sociedades', d: 'Constitución de SAS, libros societarios y estados financieros anuales.' },
     { t: 'Asesoría', d: 'Reuniones periódicas para planificar impuestos y mejorar tu rentabilidad.' },
     { t: 'Facturación', d: 'Puesta a punto de facturación electrónica y punto de venta.' },
   ];
@@ -178,9 +178,9 @@ function Contacto() {
       <p className="mt-2 text-[#6b7488]">Escríbenos y coordinamos una primera reunión sin cargo.</p>
       <div className="mt-8 grid gap-8 sm:grid-cols-2">
         <div className="space-y-3 text-sm">
-          <Info icon="📍" label="Oficina" value="Av. Corrientes 1234, Piso 5, CABA" />
-          <Info icon="📞" label="Teléfono" value="(011) 4555-0100" />
-          <Info icon="✉️" label="Email" value="hola@nucleo.com.ar" />
+          <Info icon="📍" label="Oficina" value="Calle 72 #10-34, Oficina 501, Bogotá" />
+          <Info icon="📞" label="Teléfono" value="601 745 0100" />
+          <Info icon="✉️" label="Email" value="hola@nucleo.com.co" />
           <Info icon="🕘" label="Horario" value="Lun a Vie de 9 a 18 h" />
         </div>
         {sent ? (
