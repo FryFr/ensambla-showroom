@@ -12,7 +12,13 @@ const spanClass: Record<Demo['span'], string> = {
   lg: 'sm:col-span-2 sm:row-span-2',
 };
 
-const accent = demo.pillar === 'web' ? 'var(--color-accent)' : 'var(--color-accent-lime)';
+const grupoAccent: Record<Demo['grupo'], string> = {
+  contacto: 'var(--color-accent)',
+  venta: 'var(--color-accent-lime)',
+  atencion: 'var(--color-signal)',
+  operacion: '#8b7cf6',
+};
+const accent = grupoAccent[demo.grupo];
 ---
 
 <a

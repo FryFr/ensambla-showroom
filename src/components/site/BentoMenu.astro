@@ -1,22 +1,42 @@
 ---
-import { demos } from '../../data/demos';
+import { GRUPOS, demosByGrupo, type Grupo } from '../../data/demos';
 import BentoCard from './BentoCard.astro';
+
+const accents: Record<Grupo, string> = {
+  contacto: 'var(--color-accent)',
+  venta: 'var(--color-accent-lime)',
+  atencion: 'var(--color-signal)',
+  operacion: '#8b7cf6',
+};
+
+const orden: Grupo[] = ['contacto', 'venta', 'atencion', 'operacion'];
+const grupos = orden.map((g) => ({ key: g, ...GRUPOS[g], accent: accents[g], demos: demosByGrupo(g) }));
 ---
 
 <section id="demos" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-16">
-  <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
-    <div>
-      <p class="techlabel">El menú</p>
-      <h2 class="mt-1 font-display text-3xl font-bold sm:text-4xl">
-        Elige una demo y juega.
-      </h2>
-      <p class="mt-2 max-w-lg text-ink-muted">
-        Todo lo que ves es interactivo y funciona de verdad. Datos de ejemplo, sin letra menuda.
-      </p>
-    </div>
+  <div class="mb-10">
+    <p class="techlabel">El menú</p>
+    <h2 class="mt-1 font-display text-3xl font-bold sm:text-4xl">
+      Elige una demo y juega.
+    </h2>
+    <p class="mt-2 max-w-lg text-ink-muted">
+      Todo lo que ves es interactivo y funciona de verdad. Datos de ejemplo, sin letra menuda.
+    </p>
   </div>
 
-  <div class="grid auto-rows-[13rem] grid-cols-1 gap-4 sm:grid-cols-4 sm:[grid-auto-flow:dense]">
-    {demos.map((demo) => <BentoCard demo={demo} />)}
+  <div class="space-y-12">
+    {
+      grupos.map((g) => (
+        <div style={`--pillar: ${g.accent}`}>
+          <div class="mb-4 flex items-baseline gap-3 border-l-2 pl-3" style="border-color: var(--pillar)">
+            <h3 class="font-display text-lg font-semibold sm:text-xl">{g.label}</h3>
+            <span class="techlabel text-ink-muted">{g.demos.length} demos</span>
+          </div>
+          <div class="grid auto-rows-[13rem] grid-cols-1 gap-4 sm:grid-cols-4 sm:[grid-auto-flow:dense]">
+            {g.demos.map((demo) => <BentoCard demo={demo} />)}
+          </div>
+        </div>
+      ))
+    }
   </div>
 </section>

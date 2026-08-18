@@ -12,7 +12,13 @@ const { slug } = Astro.params;
 const demo = getDemo(slug!);
 if (!demo) return Astro.redirect('/404');
 
-const accent = demo.pillar === 'web' ? 'var(--color-accent)' : 'var(--color-accent-lime)';
+const grupoAccent = {
+  contacto: 'var(--color-accent)',
+  venta: 'var(--color-accent-lime)',
+  atencion: 'var(--color-signal)',
+  operacion: '#8b7cf6',
+} as const;
+const accent = grupoAccent[demo.grupo];
 ---
 
 <BaseLayout title={`${demo.title} — Demo · Ensambla`} description={demo.tagline} chrome={false}>

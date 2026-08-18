@@ -14,6 +14,10 @@ import CotizadorDemo from './CotizadorDemo';
 import CatalogoDemo from './CatalogoDemo';
 import PanelDemo from './PanelDemo';
 import CursoDemo from './CursoDemo';
+import PortalDemo from './PortalDemo';
+import BotInternoDemo from './BotInternoDemo';
+import SyncDemo from './SyncDemo';
+import RecuperadorDemo from './RecuperadorDemo';
 
 export const demoComponents: Record<string, ComponentType> = {
   chatbot: ChatbotDemo,
@@ -28,4 +32,8 @@ export const demoComponents: Record<string, ComponentType> = {
   catalogo: CatalogoDemo,
   panel: PanelDemo,
   curso: CursoDemo,
+  portal: PortalDemo,
+  'bot-interno': BotInternoDemo,
+  sync: SyncDemo,
+  recuperador: RecuperadorDemo,
 };

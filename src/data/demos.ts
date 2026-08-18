@@ -36,6 +36,10 @@ export interface Demo {
   icon: string;
   /** Tiempo estimado de entrega (diferenciador del sitio) */
   tiempo: string;
+  /** Grupo por problema (agrupación del menú) */
+  grupo: Grupo;
+  /** ¿Se muestra en el menú? flujo va a "Cómo trabajamos" */
+  enMenu?: boolean;
 }
 
 export const PILLARS: Record<Pillar, { label: string; blurb: string }> = {
@@ -49,6 +53,28 @@ export const PILLARS: Record<Pillar, { label: string; blurb: string }> = {
   },
 };
 
+export type Grupo = 'contacto' | 'venta' | 'atencion' | 'operacion';
+
+export const GRUPOS: Record<Grupo, { label: string; blurb: string }> = {
+  contacto: {
+    label: 'Que me encuentren y me contacten',
+    blurb: 'Tu presencia online para que te encuentren, te conozcan y te escriban.',
+  },
+  venta: {
+    label: 'Que me compren',
+    blurb: 'Vende en línea o cierra por chat, con o sin checkout.',
+  },
+  atencion: {
+    label: 'Que los atiendan sin mí',
+    blurb: 'Bots que responden, toman pedidos y agendan turnos solos, 24/7.',
+  },
+  operacion: {
+    label: 'Que mi operación esté ordenada',
+    blurb: 'Tus clientes, ventas y números en un solo lugar, sin planillas.',
+  },
+};
+
+
 export const demos: Demo[] = [
   // ── Vitrina Web ─────────────────────────────────────────────
   {
@@ -60,6 +86,7 @@ export const demos: Demo[] = [
     kicker: 'WEB · CONVERSIÓN',
     icon: '🚀',
     tiempo: '3 días',
+    grupo: 'contacto',
     span: 'md',
     includes: [
       'Hero con propuesta de valor clara',
@@ -72,11 +99,12 @@ export const demos: Demo[] = [
     id: 'tienda',
     slug: 'tienda',
     title: 'Tienda online',
-    tagline: 'E-commerce completo: catálogo, carrito y checkout.',
+    tagline: 'Cobra en línea: catálogo, carrito y pago con checkout.',
     pillar: 'web',
     kicker: 'WEB · E-COMMERCE',
     icon: '🛒',
     tiempo: '3-5 días',
+    grupo: 'venta',
     span: 'lg',
     includes: [
       'Catálogo con filtros por categoría',
@@ -89,11 +117,12 @@ export const demos: Demo[] = [
     id: 'informativo',
     slug: 'informativo',
     title: 'Sitio informativo',
-    tagline: 'El sitio multipágina que tu negocio necesita.',
+    tagline: 'Varias páginas para que te conozcan: servicios, nosotros y contacto.',
     pillar: 'web',
     kicker: 'WEB · CORPORATIVO',
     icon: '🏢',
     tiempo: '3 días',
+    grupo: 'contacto',
     span: 'sm',
     includes: [
       'Páginas: Inicio, Servicios, Nosotros, Contacto',
@@ -110,9 +139,10 @@ export const demos: Demo[] = [
     title: 'Chatbot con IA',
     tagline: 'Responde de verdad, sobre la info de tu negocio.',
     pillar: 'ia',
-    kicker: 'IA · ATENCIÓN 24/7',
+    kicker: 'IA · EL MOTOR',
     icon: '💬',
     tiempo: '3-4 días',
+    grupo: 'atencion',
     span: 'lg',
     featured: true,
     hasBackend: true,
@@ -127,11 +157,12 @@ export const demos: Demo[] = [
     id: 'pedidos',
     slug: 'pedidos',
     title: 'Bot de pedidos',
-    tagline: 'Toma pedidos por chat y muestra el seguimiento.',
+    tagline: 'El chatbot aplicado a pedidos: toma la orden y hace el seguimiento.',
     pillar: 'ia',
     kicker: 'IA · PEDIDOS',
     icon: '🛵',
     tiempo: '3-4 días',
+    grupo: 'atencion',
     span: 'md',
     includes: [
       'Chat guiado con botones de respuesta rápida',
@@ -149,6 +180,7 @@ export const demos: Demo[] = [
     kicker: 'IA · VENTAS',
     icon: '📊',
     tiempo: '3-4 días',
+    grupo: 'operacion',
     span: 'sm',
     includes: [
       'Pipeline visual arrastrando leads por etapa',
@@ -166,6 +198,8 @@ export const demos: Demo[] = [
     kicker: 'IA · AUTOMATIZACIÓN',
     icon: '🔗',
     tiempo: '3-5 días',
+    grupo: 'operacion',
+    enMenu: false,
     span: 'lg',
     includes: [
       'Conecta tus canales y herramientas',
@@ -178,11 +212,12 @@ export const demos: Demo[] = [
     id: 'turnos',
     slug: 'turnos',
     title: 'Turnos con recordatorios',
-    tagline: 'Agenda llena y sin ausencias.',
+    tagline: 'El chatbot aplicado a tu agenda: reserva y recuerda turnos.',
     pillar: 'ia',
     kicker: 'IA · AGENDA',
     icon: '📅',
     tiempo: '3 días',
+    grupo: 'atencion',
     span: 'md',
     includes: [
       'Reserva de turnos online 24/7',
@@ -200,6 +235,7 @@ export const demos: Demo[] = [
     kicker: 'IA · VENTAS',
     icon: '🧮',
     tiempo: '3 días',
+    grupo: 'venta',
     span: 'md',
     includes: [
       'Presupuesto automático en segundos',
@@ -212,11 +248,12 @@ export const demos: Demo[] = [
     id: 'catalogo',
     slug: 'catalogo',
     title: 'Catálogo por WhatsApp',
-    tagline: 'Vende por WhatsApp, sin comisiones.',
+    tagline: 'Cierra por chat: pedidos por WhatsApp, sin checkout ni comisiones.',
     pillar: 'web',
     kicker: 'WEB · VENTAS',
     icon: '📲',
     tiempo: '3 días',
+    grupo: 'venta',
     span: 'md',
     includes: [
       'Catálogo lindo y fácil de actualizar',
@@ -234,6 +271,7 @@ export const demos: Demo[] = [
     kicker: 'WEB · OPERACIONES',
     icon: '📈',
     tiempo: '3-5 días',
+    grupo: 'operacion',
     span: 'lg',
     includes: [
       'Ventas, stock y métricas en vivo',
@@ -251,12 +289,85 @@ export const demos: Demo[] = [
     kicker: 'WEB · EDUCACIÓN',
     icon: '🎓',
     tiempo: '3 días',
+    grupo: 'contacto',
     span: 'sm',
     includes: [
       'Landing de curso que convierte',
       'Módulos y lecciones organizados',
       'Contenido que se desbloquea al inscribirse',
       'Listo para sumar pagos y alumnos',
+    ],
+  },
+  {
+    id: 'portal',
+    slug: 'portal',
+    title: 'Portal de clientes',
+    tagline: 'Tus clientes ven su estado, documentos e historial sin llamarte.',
+    pillar: 'web',
+    kicker: 'WEB · B2B',
+    icon: '🔐',
+    tiempo: '4-6 días',
+    grupo: 'operacion',
+    span: 'md',
+    includes: [
+      'Login propio para cada cliente',
+      'Estado del proyecto o pedido en vivo',
+      'Documentos y facturas para descargar',
+      'Historial completo, sin cadenas de mails',
+    ],
+  },
+  {
+    id: 'bot-interno',
+    slug: 'bot-interno',
+    title: 'Bot interno de operación',
+    tagline: 'Pregúntale a tu negocio: stock, pedidos y ventas al instante.',
+    pillar: 'ia',
+    kicker: 'IA · INTERNO',
+    icon: '🤖',
+    tiempo: '3-5 días',
+    grupo: 'atencion',
+    span: 'sm',
+    includes: [
+      'Responde desde tus datos reales',
+      'Stock, pedidos y ventas al toque',
+      'Sin abrir 3 sistemas distintos',
+      'Alertas cuando algo se agota',
+    ],
+  },
+  {
+    id: 'sync',
+    slug: 'sync',
+    title: 'Sincronizador',
+    tagline: 'Tu web, tu Excel y tu inventario, siempre con el mismo número.',
+    pillar: 'ia',
+    kicker: 'IA · DATOS',
+    icon: '🔄',
+    tiempo: '4-6 días',
+    grupo: 'operacion',
+    span: 'md',
+    includes: [
+      'Un solo stock para todos tus canales',
+      'Se actualiza solo con cada venta',
+      'Nunca más vendes lo que no tienes',
+      'Conecta web, POS y planillas',
+    ],
+  },
+  {
+    id: 'recuperador',
+    slug: 'recuperador',
+    title: 'Recuperador de conversaciones',
+    tagline: 'Trae de vuelta al que preguntó y nunca volvió.',
+    pillar: 'ia',
+    kicker: 'IA · SEGUIMIENTO',
+    icon: '⚡',
+    tiempo: '3-4 días',
+    grupo: 'contacto',
+    span: 'sm',
+    includes: [
+      'Detecta leads que se enfriaron',
+      'Dispara un seguimiento natural, solo',
+      'Recupera ventas que dabas por perdidas',
+      'Funciona en WhatsApp, IG y web',
     ],
   },
 ];
@@ -269,4 +380,10 @@ export function getDemo(slug: string): Demo | undefined {
 
 export function demosByPillar(pillar: Pillar): Demo[] {
   return demos.filter((d) => d.pillar === pillar);
+}
+
+export const demosEnMenu = demos.filter((d) => d.enMenu !== false);
+
+export function demosByGrupo(grupo: Grupo): Demo[] {
+  return demosEnMenu.filter((d) => d.grupo === grupo);
 }

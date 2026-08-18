@@ -1,41 +1,40 @@
 ---
-import { PILLARS, demosByPillar } from '../../data/demos';
+import { GRUPOS, demosByGrupo, type Grupo } from '../../data/demos';
 
-const web = demosByPillar('web');
-const ia = demosByPillar('ia');
-const pillars = [
-  { key: 'web' as const, ...PILLARS.web, count: web.length, accent: 'var(--color-accent)' },
-  { key: 'ia' as const, ...PILLARS.ia, count: ia.length, accent: 'var(--color-accent-lime)' },
-];
+const accents: Record<Grupo, string> = {
+  contacto: 'var(--color-accent)',
+  venta: 'var(--color-accent-lime)',
+  atencion: 'var(--color-signal)',
+  operacion: '#8b7cf6',
+};
+
+const orden: Grupo[] = ['contacto', 'venta', 'atencion', 'operacion'];
+const grupos = orden.map((k) => ({
+  key: k,
+  ...GRUPOS[k],
+  count: demosByGrupo(k).length,
+  accent: accents[k],
+}));
 ---
 
 <section class="mx-auto max-w-6xl px-5 py-8">
-  <div class="grid gap-4 md:grid-cols-2">
+  <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
     {
-      pillars.map((p) => (
-        <div
-          class="card group relative overflow-hidden p-7"
+      grupos.map((p) => (
+        <a
+          href="#demos"
+          class="card group relative overflow-hidden p-6"
           style={`--pillar: ${p.accent}`}
         >
-          <div
-            class="absolute inset-x-0 top-0 h-1 opacity-70"
-            style="background: var(--pillar)"
-          />
+          <div class="absolute inset-x-0 top-0 h-1 opacity-70" style="background: var(--pillar)" />
           <p class="techlabel" style="color: var(--pillar)">
             {p.count} demos
           </p>
-          <h2 class="mt-2 font-display text-2xl font-bold sm:text-3xl">
+          <h2 class="mt-2 font-display text-lg font-bold leading-tight sm:text-xl">
             {p.label}
           </h2>
-          <p class="mt-2 max-w-md text-ink-muted">{p.blurb}</p>
-          <a
-            href="#demos"
-            class="mt-5 inline-flex items-center gap-1 text-sm font-medium transition-transform group-hover:translate-x-1"
-            style="color: var(--pillar)"
-          >
-            Ver demos →
-          </a>
-        </div>
+          <p class="mt-2 text-sm text-ink-muted">{p.blurb}</p>
+        </a>
       ))
     }
   </div>
