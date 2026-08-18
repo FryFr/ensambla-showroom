@@ -93,7 +93,7 @@ export default function CrmDemo() {
       </div>
 
       {/* Tablero */}
-      <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
+      <DndContext id="crm-kanban" sensors={sensors} onDragEnd={handleDragEnd}>
         <div className="grid grid-cols-2 gap-3 overflow-x-auto p-4 lg:grid-cols-4">
           {STAGES.map((s) => (
             <Column

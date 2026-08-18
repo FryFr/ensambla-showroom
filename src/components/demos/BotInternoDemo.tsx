@@ -48,7 +48,7 @@ export default function BotInternoDemo() {
   const restantes = RESPUESTAS.map((_, i) => i).filter((i) => !usadas.has(i));
 
   return (
-    <div className="card flex h-[30rem] flex-col overflow-hidden p-0">
+    <div className="card flex h-[26rem] flex-col overflow-hidden p-0">
       {/* Cabecera */}
       <div className="flex items-center gap-3 border-b border-white/5 px-5 py-3.5">
         <span className="grid h-9 w-9 place-items-center rounded-full bg-signal/15 text-lg">🤖</span>
