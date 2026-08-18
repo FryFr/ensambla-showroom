@@ -1,0 +1,42 @@
+---
+import '../styles/global.css';
+import Header from '../components/site/Header.astro';
+import Footer from '../components/site/Footer.astro';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Ocultar header/footer (para vistas de demo a pantalla completa) */
+  chrome?: boolean;
+}
+
+const {
+  title = 'Ensambla — Software y automatizaciones que hacen que tu negocio funcione solo',
+  description = 'Showroom de Ensambla: un menú de mini-demos interactivas de desarrollo web y automatización con IA. Probalas y pedí la tuya.',
+  chrome = true,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#0B0F14" />
+  </head>
+  <body class="blueprint-bg min-h-screen">
+    <a href="#main" class="skip-link">Saltar al contenido</a>
+    {chrome && <Header />}
+    <main id="main">
+      <slot />
+    </main>
+    {chrome && <Footer />}
+  </body>
+</html>

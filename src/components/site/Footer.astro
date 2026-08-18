@@ -1,0 +1,19 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+---
+
+<footer class="mt-24 border-t border-white/5">
+  <div class="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 sm:flex-row sm:items-center sm:justify-between">
+    <div class="space-y-2">
+      <Wordmark />
+      <p class="max-w-xs text-sm text-ink-muted">
+        Construimos el software y las automatizaciones que hacen que tu negocio funcione solo.
+      </p>
+    </div>
+    <div class="flex flex-col gap-2 text-sm text-ink-muted">
+      <a href="/#demos" class="transition-colors hover:text-ink">Ver demos</a>
+      <a href="/contacto" class="transition-colors hover:text-ink">Contacto</a>
+      <span class="techlabel mt-2">© {new Date().getFullYear()} Ensambla</span>
+    </div>
+  </div>
+</footer>

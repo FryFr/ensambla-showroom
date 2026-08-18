@@ -1,0 +1,22 @@
+---
+import { demos } from '../../data/demos';
+import BentoCard from './BentoCard.astro';
+---
+
+<section id="demos" class="mx-auto max-w-6xl scroll-mt-20 px-5 py-16">
+  <div class="mb-8 flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <p class="techlabel">El menú</p>
+      <h2 class="mt-1 font-display text-3xl font-bold sm:text-4xl">
+        Elige una demo y juega.
+      </h2>
+      <p class="mt-2 max-w-lg text-ink-muted">
+        Todo lo que ves es interactivo y funciona de verdad. Datos de ejemplo, cero letra chica.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid auto-rows-[13rem] grid-cols-1 gap-4 sm:grid-cols-4 sm:[grid-auto-flow:dense]">
+    {demos.map((demo) => <BentoCard demo={demo} />)}
+  </div>
+</section>

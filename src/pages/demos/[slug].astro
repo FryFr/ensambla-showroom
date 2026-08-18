@@ -1,0 +1,83 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Wordmark from '../../components/brand/Wordmark.astro';
+import DemoHost from '../../components/demos/DemoHost.tsx';
+import { demos, getDemo } from '../../data/demos';
+
+export function getStaticPaths() {
+  return demos.map((d) => ({ params: { slug: d.slug } }));
+}
+
+const { slug } = Astro.params;
+const demo = getDemo(slug!);
+if (!demo) return Astro.redirect('/404');
+
+const accent = demo.pillar === 'web' ? 'var(--color-accent)' : 'var(--color-accent-lime)';
+---
+
+<BaseLayout title={`${demo.title} — Demo · Ensambla`} description={demo.tagline} chrome={false}>
+  <div class="min-h-screen">
+    <!-- Barra de demo -->
+    <div class="sticky top-0 z-40 border-b border-white/5 bg-[color-mix(in_srgb,var(--color-base)_82%,transparent)] backdrop-blur-md">
+      <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-3">
+        <a href="/#demos" class="flex items-center gap-2 text-sm text-ink-muted transition-colors hover:text-ink">
+          ← Volver al menú
+        </a>
+        <a href="/" aria-label="Inicio"><Wordmark showText={false} /></a>
+      </div>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-5 py-10">
+      <!-- Encabezado de la demo -->
+      <header class="mb-8">
+        <p class="techlabel" style={`color: ${accent}`}>{demo.kicker}</p>
+        <div class="mt-1 flex flex-wrap items-center gap-3">
+          <h1 class="font-display text-3xl font-bold sm:text-4xl">{demo.title}</h1>
+          {demo.hasBackend && (
+            <span class="techlabel flex items-center gap-1.5 rounded-full border border-white/10 px-2.5 py-1 text-[0.62rem]">
+              <span class="dot-live inline-block h-1.5 w-1.5 rounded-full" style={`background: ${accent}`}></span>
+              IA real
+            </span>
+          )}
+        </div>
+        <p class="mt-2 max-w-xl text-ink-muted">{demo.tagline}</p>
+        <p class="techlabel mt-3 inline-block rounded-md bg-white/5 px-2.5 py-1">
+          🧪 Demo con datos de ejemplo — nada de esto es real
+        </p>
+      </header>
+
+      <!-- Island interactivo (SSR + hidratación para que se vea aunque el JS tarde/se bloquee) -->
+      <DemoHost slug={demo.slug} client:load />
+
+      <!-- Qué incluye + CTA -->
+      <section class="mt-12 grid gap-6 md:grid-cols-[1.5fr_1fr]">
+        <div class="card p-7">
+          <h2 class="font-display text-xl font-semibold">Qué incluye una así</h2>
+          <ul class="mt-4 space-y-2.5">
+            {demo.includes.map((item) => (
+              <li class="flex items-start gap-2.5 text-sm text-ink-muted">
+                <span style={`color: ${accent}`}>✓</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="card flex flex-col justify-between p-7">
+          <div>
+            <h2 class="font-display text-xl font-semibold">¿Te gustó?</h2>
+            <p class="mt-2 text-sm text-ink-muted">
+              Te la construimos adaptada a tu negocio. Sin compromiso.
+            </p>
+          </div>
+          <a
+            href={`/contacto?tipo=${demo.slug}`}
+            class="mt-6 inline-block rounded-full bg-signal px-6 py-3.5 text-center font-semibold text-signal-ink transition-transform hover:-translate-y-0.5"
+          >
+            Quiero una así →
+          </a>
+        </div>
+      </section>
+    </div>
+  </div>
+</BaseLayout>

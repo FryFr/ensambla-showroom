@@ -1,0 +1,28 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+---
+
+<header class="sticky top-0 z-40 border-b border-white/5 bg-[color-mix(in_srgb,var(--color-base)_78%,transparent)] backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-3.5">
+    <a href="/" class="transition-opacity hover:opacity-80" aria-label="Ensambla — inicio">
+      <Wordmark />
+    </a>
+    <nav class="flex items-center gap-2 sm:gap-5">
+      <a
+        href="/#demos"
+        class="hidden text-sm text-ink-muted transition-colors hover:text-ink sm:inline"
+        >Demos</a
+      >
+      <a
+        href="/#como-trabajamos"
+        class="hidden text-sm text-ink-muted transition-colors hover:text-ink sm:inline"
+        >Cómo trabajamos</a
+      >
+      <a
+        href="/contacto"
+        class="rounded-full bg-signal px-4 py-2 text-sm font-semibold text-signal-ink transition-transform hover:-translate-y-0.5"
+        >Hablemos</a
+      >
+    </nav>
+  </div>
+</header>

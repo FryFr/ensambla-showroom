@@ -1,0 +1,35 @@
+---
+// Wordmark de Ensambla: piezas/bloques que encajan entre sí.
+// El isotipo son cuatro módulos que se ensamblan dejando un hueco (encaje).
+interface Props {
+  class?: string;
+  showText?: boolean;
+}
+const { class: className = '', showText = true } = Astro.props;
+---
+
+<span class={`inline-flex items-center gap-2.5 ${className}`}>
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 32 32"
+    fill="none"
+    aria-hidden="true"
+    class="shrink-0"
+  >
+    <!-- Cuatro piezas que se ensamblan -->
+    <path d="M4 4 H15 V11 H11 V15 H4 Z" fill="var(--color-accent)" />
+    <path d="M28 4 V15 H21 V11 H17 V4 Z" fill="var(--color-ink)" opacity="0.85" />
+    <path d="M4 28 V17 H11 V21 H15 V28 Z" fill="var(--color-ink)" opacity="0.85" />
+    <path d="M28 28 H17 V21 H21 V17 H28 Z" fill="var(--color-accent-lime)" />
+  </svg>
+  {
+    showText && (
+      <span
+        class="font-display text-[1.15rem] font-bold tracking-tight"
+      >
+        Ensambla
+      </span>
+    )
+  }
+</span>

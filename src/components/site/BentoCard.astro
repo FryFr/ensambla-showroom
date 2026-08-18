@@ -1,0 +1,66 @@
+---
+import type { Demo } from '../../data/demos';
+
+interface Props {
+  demo: Demo;
+}
+const { demo } = Astro.props;
+
+const spanClass: Record<Demo['span'], string> = {
+  sm: 'sm:col-span-1 sm:row-span-1',
+  md: 'sm:col-span-2 sm:row-span-1',
+  lg: 'sm:col-span-2 sm:row-span-2',
+};
+
+const accent = demo.pillar === 'web' ? 'var(--color-accent)' : 'var(--color-accent-lime)';
+---
+
+<a
+  href={`/demos/${demo.slug}`}
+  class={`card group relative flex min-h-[13rem] flex-col justify-between overflow-hidden p-6 transition-transform hover:-translate-y-1 ${spanClass[demo.span]}`}
+  style={`--accent: ${accent}`}
+  aria-label={`Abrir demo: ${demo.title}`}
+>
+  <!-- glow de acento en hover -->
+  <div
+    class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-30"
+    style="background: var(--accent)"
+  >
+  </div>
+
+  <div class="relative flex items-start justify-between">
+    <span class="text-3xl">{demo.icon}</span>
+    {
+      demo.featured && (
+        <span
+          class="techlabel rounded-full border px-2.5 py-1 text-[0.62rem]"
+          style="border-color: color-mix(in srgb, var(--accent) 40%, transparent); color: var(--accent)"
+        >
+          ★ Demo estrella
+        </span>
+      )
+    }
+    {
+      demo.hasBackend && !demo.featured && (
+        <span class="techlabel flex items-center gap-1.5 text-[0.62rem]">
+          <span class="dot-live inline-block h-1.5 w-1.5 rounded-full" style="background: var(--accent)" />
+          IA real
+        </span>
+      )
+    }
+  </div>
+
+  <div class="relative">
+    <p class="techlabel" style="color: var(--accent)">{demo.kicker}</p>
+    <h3 class="mt-1.5 font-display text-xl font-semibold sm:text-2xl">
+      {demo.title}
+    </h3>
+    <p class="mt-1 text-sm text-ink-muted">{demo.tagline}</p>
+    <span
+      class="mt-4 inline-flex items-center gap-1 text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
+      style="color: var(--accent)"
+    >
+      Probar demo →
+    </span>
+  </div>
+</a>

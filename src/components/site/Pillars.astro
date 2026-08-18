@@ -1,0 +1,42 @@
+---
+import { PILLARS, demosByPillar } from '../../data/demos';
+
+const web = demosByPillar('web');
+const ia = demosByPillar('ia');
+const pillars = [
+  { key: 'web' as const, ...PILLARS.web, count: web.length, accent: 'var(--color-accent)' },
+  { key: 'ia' as const, ...PILLARS.ia, count: ia.length, accent: 'var(--color-accent-lime)' },
+];
+---
+
+<section class="mx-auto max-w-6xl px-5 py-8">
+  <div class="grid gap-4 md:grid-cols-2">
+    {
+      pillars.map((p) => (
+        <div
+          class="card group relative overflow-hidden p-7"
+          style={`--pillar: ${p.accent}`}
+        >
+          <div
+            class="absolute inset-x-0 top-0 h-1 opacity-70"
+            style="background: var(--pillar)"
+          />
+          <p class="techlabel" style="color: var(--pillar)">
+            {p.count} demos
+          </p>
+          <h2 class="mt-2 font-display text-2xl font-bold sm:text-3xl">
+            {p.label}
+          </h2>
+          <p class="mt-2 max-w-md text-ink-muted">{p.blurb}</p>
+          <a
+            href="#demos"
+            class="mt-5 inline-flex items-center gap-1 text-sm font-medium transition-transform group-hover:translate-x-1"
+            style="color: var(--pillar)"
+          >
+            Ver demos →
+          </a>
+        </div>
+      ))
+    }
+  </div>
+</section>
