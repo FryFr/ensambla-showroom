@@ -31,7 +31,7 @@ const grupos = orden.map((k) => ({
     {
       grupos.map((p) => (
         <a
-          href="#demos"
+          href={`#grupo-${p.key}`}
           class="card group relative overflow-hidden p-6"
           style={`--pillar: ${p.accent}`}
         >

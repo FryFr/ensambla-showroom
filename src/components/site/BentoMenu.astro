@@ -27,7 +27,7 @@ const grupos = orden.map((g) => ({ key: g, ...GRUPOS[g], accent: accents[g], dem
   <div class="space-y-12">
     {
       grupos.map((g) => (
-        <div style={`--pillar: ${g.accent}`}>
+        <div id={`grupo-${g.key}`} class="scroll-mt-24" style={`--pillar: ${g.accent}`}>
           <div class="mb-4 flex items-baseline gap-3 border-l-2 pl-3" style="border-color: var(--pillar)">
             <h3 class="font-display text-lg font-semibold sm:text-xl">{g.label}</h3>
             <span class="techlabel text-ink-muted">{g.demos.length} demos</span>
