@@ -18,3 +18,9 @@ yarn-error.log*
 
 # macOS
 .DS_Store
+
+# Interno / confidencial — NO publicar (repo público)
+docs/tarifario-interno.md
+docs/soporte-y-contrato.md
+prospeccion/
+ensambla-prospeccion-arquitectura.md
