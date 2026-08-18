@@ -144,7 +144,7 @@ export default function FlujoDemo() {
           ) : (
             <ul className="space-y-1.5 font-mono text-xs leading-relaxed text-ink">
               {log.map((line, i) => (
-                <li key={i} className="toast-in">{line}</li>
+                <li key={i} className="page-fade">{line}</li>
               ))}
             </ul>
           )}

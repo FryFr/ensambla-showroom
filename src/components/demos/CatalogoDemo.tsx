@@ -84,7 +84,7 @@ export default function CatalogoDemo() {
 
         {/* Barra flotante: enviar por WhatsApp */}
         {count > 0 && !sent && (
-          <div className="toast-in absolute inset-x-0 bottom-0 border-t border-white/10 bg-[#141a1f] p-4">
+          <div className="page-fade absolute inset-x-0 bottom-0 border-t border-white/10 bg-[#141a1f] p-4">
             <div className="mb-2 flex items-center justify-between text-sm">
               <span className="text-[#93a1b0]">{count} {count === 1 ? 'prenda' : 'prendas'}</span>
               <span className="font-bold">{ARS(total)}</span>

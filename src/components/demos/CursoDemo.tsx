@@ -114,7 +114,7 @@ export default function CursoDemo() {
             })}
           </ul>
           {aviso && (
-            <p className="toast-in mt-3 rounded-lg bg-white/5 p-2.5 text-center text-sm" style={{ color: CORAL }}>
+            <p className="page-fade mt-3 rounded-lg bg-white/5 p-2.5 text-center text-sm" style={{ color: CORAL }}>
               🔒 Inscríbete para desbloquear todos los módulos
             </p>
           )}

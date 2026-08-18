@@ -30,6 +30,11 @@ const {
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta name="theme-color" content="#0B0F14" />
+    <script is:inline>
+      // El navegador NO restaura el scroll al recargar: toda entrada fresca a "/"
+      // arranca arriba (el hero). Un enlace con #ancla sigue funcionando normal.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    </script>
   </head>
   <body class="blueprint-bg min-h-screen">
     <a href="#main" class="skip-link">Saltar al contenido</a>

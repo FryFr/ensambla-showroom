@@ -199,7 +199,6 @@ export const demos: Demo[] = [
     icon: '🔗',
     tiempo: '3-5 días',
     grupo: 'operacion',
-    enMenu: false,
     span: 'lg',
     includes: [
       'Conecta tus canales y herramientas',

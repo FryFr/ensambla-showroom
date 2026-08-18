@@ -23,14 +23,14 @@ const accent = grupoAccent[demo.grupo];
 
 <a
   href={`/demos/${demo.slug}`}
-  class={`card group relative flex min-h-[13rem] flex-col justify-between overflow-hidden p-6 transition-transform hover:-translate-y-1 ${spanClass[demo.span]}`}
+  class={`card group relative flex min-h-[13rem] flex-col justify-between overflow-hidden p-5 transition-transform hover:-translate-y-1 ${spanClass[demo.span]}`}
   style={`--accent: ${accent}`}
   aria-label={`Abrir demo: ${demo.title}`}
 >
-  <!-- glow de acento en hover -->
+  <!-- glow de acento en hover (radial-gradient: sin filter:blur, estable) -->
   <div
-    class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-30"
-    style="background: var(--accent)"
+    class="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+    style="background: radial-gradient(220px circle at top right, color-mix(in srgb, var(--accent) 22%, transparent), transparent 72%)"
   >
   </div>
 
@@ -58,16 +58,24 @@ const accent = grupoAccent[demo.grupo];
 
   <div class="relative">
     <p class="techlabel" style="color: var(--accent)">{demo.kicker}</p>
-    <h3 class="mt-1.5 font-display text-xl font-semibold sm:text-2xl">
+    <h3 class="mt-1.5 line-clamp-2 font-display text-xl font-semibold leading-tight sm:text-2xl">
       {demo.title}
     </h3>
-    <p class="mt-1 text-sm text-ink-muted">{demo.tagline}</p>
-    <p class="mt-2 text-xs font-medium" style="color: var(--accent)">⚡ Lista en {demo.tiempo}</p>
-    <span
-      class="mt-4 inline-flex items-center gap-1 text-sm font-medium opacity-0 transition-opacity group-hover:opacity-100"
-      style="color: var(--accent)"
-    >
-      Probar demo →
-    </span>
+    <p class="mt-1 line-clamp-2 text-sm text-ink-muted sm:line-clamp-1 lg:line-clamp-2">{demo.tagline}</p>
+    <!-- tiempo (reposo) ↔ CTA (hover) en el MISMO renglón: no agrega alto -->
+    <div class="relative mt-1.5 h-4">
+      <p
+        class="absolute inset-0 truncate text-xs font-medium leading-4 transition-opacity group-hover:opacity-0"
+        style="color: var(--accent)"
+      >
+        ⚡ Lista en {demo.tiempo}
+      </p>
+      <span
+        class="absolute inset-0 inline-flex items-center gap-1 text-xs font-medium leading-4 opacity-0 transition-opacity group-hover:opacity-100"
+        style="color: var(--accent)"
+      >
+        Probar demo →
+      </span>
+    </div>
   </div>
 </a>
