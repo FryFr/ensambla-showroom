@@ -87,7 +87,7 @@ export const demos: Demo[] = [
     icon: '🚀',
     tiempo: '3 días',
     grupo: 'contacto',
-    span: 'md',
+    span: 'lg',
     includes: [
       'Hero con propuesta de valor clara',
       'Bloques de beneficios, features y testimonios',
@@ -123,7 +123,7 @@ export const demos: Demo[] = [
     icon: '🏢',
     tiempo: '3 días',
     grupo: 'contacto',
-    span: 'sm',
+    span: 'md',
     includes: [
       'Páginas: Inicio, Servicios, Nosotros, Contacto',
       'Navegación clara y responsive',
@@ -181,7 +181,7 @@ export const demos: Demo[] = [
     icon: '📊',
     tiempo: '3-4 días',
     grupo: 'operacion',
-    span: 'sm',
+    span: 'md',
     includes: [
       'Pipeline visual arrastrando leads por etapa',
       'Ficha de cada lead con su historial',
@@ -217,7 +217,7 @@ export const demos: Demo[] = [
     icon: '📅',
     tiempo: '3 días',
     grupo: 'atencion',
-    span: 'md',
+    span: 'sm',
     includes: [
       'Reserva de turnos online 24/7',
       'Recordatorios automáticos por WhatsApp',
@@ -307,7 +307,7 @@ export const demos: Demo[] = [
     icon: '🔐',
     tiempo: '4-6 días',
     grupo: 'operacion',
-    span: 'md',
+    span: 'sm',
     includes: [
       'Login propio para cada cliente',
       'Estado del proyecto o pedido en vivo',
@@ -343,7 +343,7 @@ export const demos: Demo[] = [
     icon: '🔄',
     tiempo: '4-6 días',
     grupo: 'operacion',
-    span: 'md',
+    span: 'sm',
     includes: [
       'Un solo stock para todos tus canales',
       'Se actualiza solo con cada venta',
