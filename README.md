@@ -98,7 +98,7 @@ Aparece solo en la home y en `/trabajos/<slug>`, con su CTA hacia `/contacto?tip
 
 ---
 
-## 🎯 Las 12 demos
+## 🎯 Las 16 demos
 
 Todas viven en un **registro** ([`src/data/demos.ts`](src/data/demos.ts)) que es la única fuente de
 verdad: la home y cada `/demos/[slug]` se generan desde ahí.
