@@ -1,16 +1,32 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { demosBySlug } from '../data/demos';
+import { trabajosBySlug } from '../data/trabajos';
 
 // Render por request para poder leer ?tipo= (en modo estático la query no existe).
 export const prerender = false;
 
 const tipo = Astro.url.searchParams.get('tipo');
 const demo = tipo ? demosBySlug[tipo] : undefined;
+const trabajo = tipo ? trabajosBySlug[tipo] : undefined;
+
+// El `tipo` puede venir de una demo (/demos/<slug>) o de un trabajo real
+// (/trabajos/<slug>). Cambia cómo se encuadra el mensaje, no el flujo.
+const interes = demo
+  ? {
+      title: demo.title,
+      texto: `Me interesó la demo de "${demo.title}". Quiero una así para mi negocio.`,
+    }
+  : trabajo
+    ? {
+        title: trabajo.title,
+        texto: `Vi el trabajo que hicieron para ${trabajo.title} (${trabajo.host}). Quiero uno así para mi negocio.`,
+      }
+    : undefined;
 
 const waNumber = import.meta.env.PUBLIC_WHATSAPP_NUMBER ?? '5491100000000';
-const waText = demo
-  ? `Hola Ensambla 👋 Me interesó la demo de "${demo.title}". Quiero una así para mi negocio.`
+const waText = interes
+  ? `Hola Ensambla 👋 ${interes.texto}`
   : 'Hola Ensambla 👋 Vi el showroom y quiero hablar de un proyecto.';
 const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
 ---
@@ -26,11 +42,11 @@ const waLink = `https://wa.me/${waNumber}?text=${encodeURIComponent(waText)}`;
     </p>
 
     {
-      demo && (
+      interes && (
         <div class="mt-6 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/5 px-4 py-2 text-sm">
           <span class="dot-live inline-block h-2 w-2 rounded-full bg-accent" />
           <span class="text-ink-muted">
-            Te interesó: <strong class="text-ink">{demo.title}</strong>
+            Te interesó: <strong class="text-ink">{interes.title}</strong>
           </span>
         </div>
       )

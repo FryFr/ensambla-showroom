@@ -31,6 +31,73 @@ demos que se tocan, se prueban y se sienten reales.
 
 ---
 
+## 🏢 Trabajos reales
+
+Las demos son fachadas; los **trabajos** son sitios de clientes **publicados y en línea**. Viven en
+su propio registro ([`src/data/trabajos.ts`](src/data/trabajos.ts)) — deliberadamente separado de
+`demos.ts`, porque la regla que los rige es la contraria.
+
+| Trabajo | Qué es | Sitio |
+| ------- | ------ | ----- |
+| **Milu** | Tienda de shampoo sólido: catálogo, carrito propio y dos idiomas. | [miluprana.com](https://www.miluprana.com) |
+| **DABO** | Sitio-experiencia de un DJ y productor, en seis capítulos con metraje propio. | [dabomusica.com](https://dabomusica.com) |
+
+> [!IMPORTANT]
+> **La regla de los trabajos: todo dato tiene que ser verificable.** Cada campo de `trabajos.ts` se
+> comprueba abriendo el sitio o leyendo su HTML y sus cabeceras. Si no se puede verificar, no se
+> escribe. Nada de métricas de negocio sin fuente.
+
+### Cómo se muestran
+
+**Captura primero, iframe bajo demanda** ([`SitePreview.astro`](src/components/site/SitePreview.astro)).
+La ficha carga una captura estática; el sitio del cliente se embebe **solo si el visitante pulsa
+«Ver el sitio aquí»**. Tres razones:
+
+1. **Rendimiento** — un iframe ajeno arrastra su JS, su video y sus fuentes a nuestra página.
+2. **Tolerancia** — cualquier sitio puede empezar a mandar `X-Frame-Options` o
+   `Content-Security-Policy: frame-ancestors` mañana. Si el marco queda en blanco, la captura ya se
+   vio y el enlace a la pestaña aparte sigue ahí.
+3. **Sin JavaScript** — la captura y el enlace externo funcionan igual; lo único que se pierde es el
+   marco embebido. Por eso la home **no** monta iframes: solo las fichas.
+
+### Estados
+
+| Estado | Significa |
+| ------ | --------- |
+| `produccion` | Publicado y abierto a buscadores. |
+| `vista-previa` | El propio sitio se declara fuera de buscadores (`noindex` y/o `Disallow: /`) mientras el cliente cierra detalles. |
+
+Cuando un trabajo lleva `respetarNoindex: true`, **todos** nuestros enlaces salientes hacia él
+salen con `rel="nofollow"`: si el cliente pidió no aparecer en buscadores, nosotros no lo empujamos.
+
+### ➕ Agregar un trabajo nuevo
+
+1. **Capturas** en `public/trabajos/` con estos tamaños exactos (los `width`/`height` del HTML los
+   dan por sentado, y cambiarlos provoca *layout shift*):
+
+   | Archivo | Tamaño | Formato | Para qué |
+   | ------- | ------ | ------- | -------- |
+   | `<slug>-desktop.webp` | 1600 × 1000 | WebP | Tarjeta de la home y escenario de la ficha |
+   | `<slug>-mobile.webp` | 720 × 1210 | WebP | Bloque «En el teléfono» |
+   | `<slug>-og.jpg` | 1200 × 630 | JPG | Imagen para redes (`og:image`) |
+
+2. **Verificá antes de escribir la entrada** — y anotá la fecha en `verificadoEl`:
+
+   ```bash
+   # ¿Se puede embeber? (sin X-Frame-Options ni CSP frame-ancestors → embebible: true)
+   curl -sSI https://sitio-del-cliente.com | rg -i 'x-frame-options|content-security-policy'
+
+   # ¿Pide quedar fuera de buscadores? (→ estado: 'vista-previa' + respetarNoindex: true)
+   curl -sS https://sitio-del-cliente.com/robots.txt
+   curl -sS https://sitio-del-cliente.com | rg -io '<meta[^>]*robots[^>]*>'
+   ```
+
+3. **Registro** — agregá la entrada en [`src/data/trabajos.ts`](src/data/trabajos.ts).
+
+Aparece solo en la home y en `/trabajos/<slug>`, con su CTA hacia `/contacto?tipo=<slug>`.
+
+---
+
 ## 🎯 Las 12 demos
 
 Todas viven en un **registro** ([`src/data/demos.ts`](src/data/demos.ts)) que es la única fuente de
@@ -109,6 +176,7 @@ Definidas en [`env.example`](env.example):
 | `GROQ_API_KEY` | Sí *(chatbot)* | API key de [Groq](https://console.groq.com/keys). Gratis. |
 | `GROQ_MODEL` | No | Modelo de Groq. Default: `openai/gpt-oss-120b`. |
 | `PUBLIC_WHATSAPP_NUMBER` | Recomendada | Número de WhatsApp para los CTA (formato internacional, solo dígitos). |
+| `PUBLIC_SITE_URL` | Recomendada | Dominio público con esquema (`https://…`). Alimenta `site` en `astro.config.mjs`: sin ella, `BaseLayout` **omite** `canonical` y `og:image` en vez de inventar un dominio, y las tarjetas de redes salen sin imagen. |
 
 > [!NOTE]
 > **Sin `GROQ_API_KEY` el sitio igual funciona.** Solo el chatbot responde con un aviso de que falta
@@ -122,7 +190,7 @@ Definidas en [`env.example`](env.example):
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/FryFr/ensambla-showroom&env=GROQ_API_KEY,PUBLIC_WHATSAPP_NUMBER)
 
 1. Importá el repositorio en [Vercel](https://vercel.com/new) — detecta Astro automáticamente.
-2. Cargá las variables de entorno (`GROQ_API_KEY` y `PUBLIC_WHATSAPP_NUMBER`).
+2. Cargá las variables de entorno (`GROQ_API_KEY`, `PUBLIC_WHATSAPP_NUMBER` y `PUBLIC_SITE_URL`).
 3. **Deploy.** El endpoint `/api/chat` corre como función serverless; el resto es estático.
 
 Cada `git push` a `main` vuelve a desplegar automáticamente.
@@ -137,25 +205,33 @@ Cada `git push` a `main` vuelve a desplegar automáticamente.
 ```
 src/
 ├─ data/
-│  ├─ demos.ts            # ← REGISTRO de demos (única fuente de verdad)
-│  └─ kb/                 # base de conocimiento del chatbot (negocio ficticio)
+│  ├─ demos.ts               # ← REGISTRO de demos ficticias (fuente de verdad)
+│  ├─ trabajos.ts            # ← REGISTRO de trabajos reales (fuente de verdad)
+│  └─ kb/                    # base de conocimiento del chatbot (negocio ficticio)
 ├─ layouts/
-│  └─ BaseLayout.astro    # fondo blueprint, fuentes, meta, skip-link
+│  └─ BaseLayout.astro       # fondo blueprint, fuentes, meta (canonical + OG), skip-link
 ├─ components/
-│  ├─ site/               # Hero, Pillars, BentoMenu, Header, Footer…
+│  ├─ site/                  # Hero, Pillars, BentoMenu, Header, Footer…
+│  │  ├─ TrabajosSection.astro # sección de trabajos reales en la home
+│  │  ├─ TrabajoCard.astro     # tarjeta de un trabajo (sin JS, enlaza a la ficha)
+│  │  └─ SitePreview.astro     # captura primero, iframe bajo demanda
 │  ├─ brand/Wordmark.astro
 │  └─ demos/
-│     ├─ registry.ts      # mapa slug → componente React
-│     ├─ DemoHost.tsx     # monta la demo según el slug
-│     ├─ BrowserFrame.tsx # marco tipo navegador (demos web)
-│     └─ *Demo.tsx        # una demo por archivo
+│     ├─ registry.ts         # mapa slug → componente React
+│     ├─ DemoHost.tsx        # monta la demo según el slug
+│     ├─ BrowserFrame.tsx    # marco tipo navegador (demos web)
+│     └─ *Demo.tsx           # una demo por archivo
 ├─ pages/
-│  ├─ index.astro         # home (menú bento desde el registro)
-│  ├─ contacto.astro      # CTA de WhatsApp (lee ?tipo=)
-│  ├─ demos/[slug].astro  # cada demo a pantalla completa (getStaticPaths)
-│  └─ api/chat.ts         # serverless: base de conocimiento + pregunta → Groq
-├─ lib/llm.ts             # wrapper del proveedor de LLM
-└─ styles/global.css      # design tokens (@theme) + utilidades + animaciones
+│  ├─ index.astro            # home (trabajos reales + menú bento de demos)
+│  ├─ contacto.astro         # CTA de WhatsApp (lee ?tipo= de demos y trabajos)
+│  ├─ demos/[slug].astro     # cada demo a pantalla completa (getStaticPaths)
+│  ├─ trabajos/[slug].astro  # ficha de cada trabajo real (getStaticPaths)
+│  └─ api/chat.ts            # serverless: base de conocimiento + pregunta → Groq
+├─ lib/llm.ts                # wrapper del proveedor de LLM
+└─ styles/global.css         # design tokens (@theme) + utilidades + animaciones
+
+public/
+└─ trabajos/                 # capturas reales: <slug>-{desktop,mobile}.webp + <slug>-og.jpg
 ```
 
 ---
