@@ -1,0 +1,178 @@
+---
+// Ficha de un trabajo REAL. Una por entrada de src/data/trabajos.ts.
+//
+// Diferencia con /demos/[slug]: allá el protagonista es una fachada con datos
+// inventados; acá es el sitio del cliente, publicado y en línea. Por eso la
+// página se arma alrededor de la previsualización (captura primero, iframe
+// bajo demanda) y cada afirmación se puede comprobar abriendo el sitio.
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SitePreview from '../../components/site/SitePreview.astro';
+import { ESTADOS, getTrabajo, relParaTrabajo, trabajos } from '../../data/trabajos';
+
+export function getStaticPaths() {
+  return trabajos.map((t) => ({ params: { slug: t.slug } }));
+}
+
+const { slug } = Astro.params;
+const trabajo = getTrabajo(slug!);
+// getStaticPaths solo genera slugs que existen; el guard es para TypeScript.
+if (!trabajo) return Astro.redirect('/404');
+
+const estado = ESTADOS[trabajo.estado];
+const rel = relParaTrabajo(trabajo);
+const verificado = new Intl.DateTimeFormat('es-CO', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(`${trabajo.verificadoEl}T12:00:00Z`));
+---
+
+<BaseLayout
+  title={`${trabajo.title} — Trabajo real · Ensambla`}
+  description={trabajo.tagline}
+  image={trabajo.shots.og}
+>
+  <div class="mx-auto max-w-5xl px-5 py-10" style={`--accent: ${trabajo.accent}`}>
+    <a
+      href="/#trabajos"
+      class="inline-flex items-center gap-2 text-sm text-ink-muted transition-colors hover:text-ink"
+    >
+      ← Volver a los trabajos
+    </a>
+
+    <header class="mt-6">
+      <p class="techlabel" style="color: var(--accent)">{trabajo.kicker}</p>
+      <div class="mt-1 flex flex-wrap items-center gap-3">
+        <h1 class="font-display text-3xl font-bold sm:text-4xl">{trabajo.title}</h1>
+        <span
+          class="techlabel shrink-0 rounded-full border px-2.5 py-1 text-[0.62rem]"
+          style="border-color: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--accent)"
+        >
+          {estado.label}
+        </span>
+      </div>
+      <p class="mt-2 max-w-2xl text-lg text-ink-muted">{trabajo.tagline}</p>
+
+      <dl class="mt-6 flex flex-wrap gap-x-10 gap-y-4">
+        <div>
+          <dt class="techlabel">Rubro</dt>
+          <dd class="mt-0.5 text-sm">{trabajo.rubro}</dd>
+        </div>
+        <div>
+          <dt class="techlabel">Sitio</dt>
+          <dd class="mt-0.5 text-sm">
+            <a
+              href={trabajo.url}
+              target="_blank"
+              rel={rel}
+              class="underline underline-offset-4"
+              style="color: var(--accent)"
+            >
+              {trabajo.host} <span aria-hidden="true">↗</span>
+            </a>
+          </dd>
+        </div>
+        <div>
+          <dt class="techlabel">Verificado el</dt>
+          <dd class="mt-0.5 text-sm">
+            <time datetime={trabajo.verificadoEl}>{verificado}</time>
+          </dd>
+        </div>
+      </dl>
+
+      <p class="mt-3 max-w-2xl text-xs text-ink-muted">{estado.nota}</p>
+    </header>
+
+    <!-- El sitio real: captura ahora, iframe solo si el visitante lo pide -->
+    <div class="mt-8">
+      <SitePreview trabajo={trabajo} />
+    </div>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-[1.6fr_1fr]">
+      <div class="space-y-6">
+        <section class="card p-7">
+          <h2 class="font-display text-xl font-semibold">Qué es</h2>
+          <p class="mt-3 text-sm leading-relaxed text-ink-muted">{trabajo.resumen}</p>
+        </section>
+
+        <section class="card p-7">
+          <h2 class="font-display text-xl font-semibold">Qué se ve al abrirlo</h2>
+          <ul class="mt-4 space-y-4">
+            {
+              trabajo.destacados.map((d) => (
+                <li class="flex items-start gap-2.5">
+                  <span class="mt-0.5 shrink-0" style="color: var(--accent)" aria-hidden="true">
+                    ✓
+                  </span>
+                  <div>
+                    <p class="text-sm font-semibold">{d.titulo}</p>
+                    <p class="mt-0.5 text-sm text-ink-muted">{d.detalle}</p>
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+
+      <div class="space-y-6">
+        <section class="card p-7">
+          <h2 class="font-display text-xl font-semibold">En el teléfono</h2>
+          <img
+            src={trabajo.shots.mobile}
+            alt={trabajo.shots.altMobile}
+            width="720"
+            height="1210"
+            loading="lazy"
+            decoding="async"
+            class="mx-auto mt-4 w-full max-w-[15rem] rounded-xl border border-white/10"
+          />
+        </section>
+
+        <section class="card p-7">
+          <h2 class="font-display text-xl font-semibold">Bajo el capó</h2>
+          <ul class="mt-4 space-y-2.5">
+            {
+              trabajo.tecnica.map((t) => (
+                <li class="techlabel flex items-start gap-2 normal-case tracking-normal text-ink-muted">
+                  <span aria-hidden="true" style="color: var(--accent)">
+                    ·
+                  </span>
+                  <span>{t}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <!-- CTA: mismo destino que las demos, pero con el slug del trabajo -->
+    <section class="card mt-10 flex flex-col items-start justify-between gap-6 p-7 sm:flex-row sm:items-center">
+      <div>
+        <h2 class="font-display text-xl font-semibold">¿Quieres uno así?</h2>
+        <p class="mt-2 max-w-md text-sm text-ink-muted">
+          Este no es un caso de estudio maquillado: está en línea y lo puedes revisar.
+          El tuyo lo armamos igual, adaptado a tu negocio.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href={`/contacto?tipo=${trabajo.slug}`}
+          class="rounded-full bg-signal px-6 py-3.5 font-semibold text-signal-ink transition-transform hover:-translate-y-0.5"
+        >
+          Quiero uno así →
+        </a>
+        <a
+          href={trabajo.url}
+          target="_blank"
+          rel={rel}
+          class="rounded-full border border-white/15 px-6 py-3.5 font-medium text-ink transition-colors hover:border-white/35"
+        >
+          Abrir {trabajo.host} ↗
+        </a>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

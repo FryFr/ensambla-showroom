@@ -8,13 +8,22 @@ interface Props {
   description?: string;
   /** Ocultar header/footer (para vistas de demo a pantalla completa) */
   chrome?: boolean;
+  /** Imagen para redes, ruta absoluta del sitio (ej. /trabajos/milu-og.jpg) */
+  image?: string;
 }
 
 const {
   title = 'Ensambla — Software y automatizaciones que hacen que tu negocio funcione solo',
   description = 'Showroom de Ensambla: un menú de mini-demos interactivas de desarrollo web y automatización con IA. Pruébalas y pide la tuya.',
   chrome = true,
+  image,
 } = Astro.props;
+
+// og:image y canonical tienen que ser URLs absolutas para que las redes las
+// resuelvan. `Astro.site` sale de `site` en astro.config (PUBLIC_SITE_URL).
+// Si no está definida no inventamos un dominio: se omiten las etiquetas.
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site && image ? new URL(image, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -26,9 +35,17 @@ const {
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {canonical && <link rel="canonical" href={canonical} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:site_name" content="Ensambla" />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {ogImage && <meta property="og:image" content={ogImage} />}
+    {ogImage && <meta property="og:image:width" content="1200" />}
+    {ogImage && <meta property="og:image:height" content="630" />}
+    <meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
     <meta name="theme-color" content="#0B0F14" />
     <script is:inline>
       // El navegador NO restaura el scroll al recargar: toda entrada fresca a "/"

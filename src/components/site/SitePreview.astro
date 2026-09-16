@@ -1,0 +1,211 @@
+---
+// Previsualización de un sitio real, "captura primero".
+//
+// Por qué así y no un iframe directo:
+//   1. Rendimiento — un iframe de un sitio ajeno arrastra su JS, su video y sus
+//      fuentes. Acá se carga SOLO si el visitante lo pide.
+//   2. Tolerancia — cualquier sitio puede empezar a mandar X-Frame-Options o
+//      CSP frame-ancestors mañana. Si el marco queda en blanco, la captura ya
+//      se vio y el enlace a la pestaña aparte sigue ahí.
+//   3. Sin JavaScript — la captura y el enlace externo funcionan igual; lo único
+//      que se pierde es el marco embebido.
+import { relParaTrabajo, type Trabajo } from '../../data/trabajos';
+
+interface Props {
+  trabajo: Trabajo;
+}
+const { trabajo } = Astro.props;
+
+const rel = relParaTrabajo(trabajo);
+const stageId = `preview-stage-${trabajo.slug}`;
+const fechaCaptura = new Intl.DateTimeFormat('es-CO', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(`${trabajo.verificadoEl}T12:00:00Z`));
+---
+
+<figure
+  class="card overflow-hidden"
+  style={`--accent: ${trabajo.accent}`}
+  data-site-preview
+  data-src={trabajo.url}
+  data-title={`Sitio de ${trabajo.title} (${trabajo.host}) dentro de esta página`}
+>
+  <!-- Barra tipo navegador: ubica la captura y aloja los controles -->
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-white/5 bg-white/[0.03] px-4 py-2.5">
+    <span class="flex shrink-0 gap-1.5" aria-hidden="true">
+      <span class="h-2.5 w-2.5 rounded-full bg-white/15"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-white/15"></span>
+      <span class="h-2.5 w-2.5 rounded-full bg-white/15"></span>
+    </span>
+    <span class="techlabel min-w-0 flex-1 truncate normal-case tracking-normal">{trabajo.host}</span>
+
+    <button
+      type="button"
+      data-preview-close
+      hidden
+      class="rounded-full border border-white/15 px-3 py-1.5 text-xs font-medium text-ink transition-colors hover:border-white/35"
+    >
+      ← Volver a la captura
+    </button>
+
+    <a
+      href={trabajo.url}
+      target="_blank"
+      rel={rel}
+      class="rounded-full px-3 py-1.5 text-xs font-semibold transition-colors"
+      style="color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent)"
+    >
+      Abrir en una pestaña <span aria-hidden="true">↗</span>
+    </a>
+  </div>
+
+  <!-- Escenario: captura ahora, iframe si lo piden -->
+  <div class="relative bg-base" id={stageId} data-preview-stage>
+    <img
+      src={trabajo.shots.desktop}
+      alt={trabajo.shots.altDesktop}
+      width="1600"
+      height="1000"
+      decoding="async"
+      data-preview-shot
+      class="h-full w-full object-cover object-top"
+    />
+
+    <!-- Único control para cargar el sitio. Oculto sin JS: sin JS no hay iframe. -->
+    <button
+      type="button"
+      data-preview-open
+      hidden
+      aria-expanded="false"
+      aria-controls={stageId}
+      class="group absolute inset-0 grid w-full place-items-center bg-base/35 transition-colors hover:bg-base/50 focus-visible:bg-base/50"
+    >
+      <span
+        class="inline-flex items-center gap-2 rounded-full px-5 py-3 text-sm font-semibold shadow-lg transition-transform group-hover:-translate-y-0.5"
+        style="background: var(--accent); color: #0b0f14"
+      >
+        <span aria-hidden="true">▶</span>
+        Ver el sitio aquí
+      </span>
+      <span class="sr-only">Cargar {trabajo.host} dentro de esta página, sin salir del showroom.</span>
+    </button>
+  </div>
+
+  <figcaption class="border-t border-white/5 px-4 py-3 text-xs text-ink-muted">
+    <span data-preview-caption>
+      Captura real de {trabajo.host}, tomada el {fechaCaptura}.
+    </span>
+    <span data-preview-blocked hidden>
+      ¿El marco quedó en blanco? Algunos sitios no permiten mostrarse dentro de otra página.
+      <a href={trabajo.url} target="_blank" rel={rel} class="underline" style="color: var(--accent)">
+        Ábrelo en una pestaña ↗
+      </a>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  /* Sin iframe: el escenario calza exacto con la captura de escritorio (1600×1000). */
+  [data-preview-stage] {
+    aspect-ratio: 16 / 10;
+  }
+
+  /* Con el sitio embebido en pantallas chicas, 16/10 deja el contenido ilegible:
+     le damos alto para que se vea el layout móvil real del cliente. */
+  @media (max-width: 640px) {
+    [data-site-preview][data-live] [data-preview-stage] {
+      aspect-ratio: 3 / 5;
+    }
+  }
+
+  [data-preview-stage] iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* Red de seguridad: ninguna utilidad de display debe ganarle a [hidden]. */
+  [hidden] {
+    display: none !important;
+  }
+</style>
+
+<script>
+  // Previsualización bajo demanda. Progresivo: si este script no corre,
+  // queda la captura + el enlace externo, que es lo mínimo útil.
+  const TIEMPO_DE_GRACIA = 6000;
+
+  document.querySelectorAll<HTMLElement>('[data-site-preview]').forEach((raiz) => {
+    const abrir = raiz.querySelector<HTMLButtonElement>('[data-preview-open]');
+    const cerrar = raiz.querySelector<HTMLButtonElement>('[data-preview-close]');
+    const escenario = raiz.querySelector<HTMLElement>('[data-preview-stage]');
+    const captura = raiz.querySelector<HTMLImageElement>('[data-preview-shot]');
+    const pieNormal = raiz.querySelector<HTMLElement>('[data-preview-caption]');
+    const pieBloqueado = raiz.querySelector<HTMLElement>('[data-preview-blocked]');
+    const src = raiz.dataset.src;
+    const titulo = raiz.dataset.title ?? 'Sitio embebido';
+
+    if (!abrir || !cerrar || !escenario || !captura || !src) return;
+
+    // Hay JS: recién ahora mostramos el control que depende de él.
+    abrir.hidden = false;
+
+    let iframe: HTMLIFrameElement | null = null;
+    let aviso: number | undefined;
+
+    function mostrarSitio() {
+      if (iframe) return;
+
+      iframe = document.createElement('iframe');
+      iframe.src = src!;
+      iframe.title = titulo;
+      iframe.loading = 'eager';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allow = 'autoplay; fullscreen; encrypted-media; picture-in-picture';
+      // Contenido de terceros: se le da lo justo para funcionar y nada más.
+      iframe.setAttribute(
+        'sandbox',
+        'allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox',
+      );
+      iframe.addEventListener('load', () => {
+        window.clearTimeout(aviso);
+        cerrar!.focus();
+      });
+
+      escenario!.appendChild(iframe);
+      captura!.hidden = true;
+      abrir!.hidden = true;
+      abrir!.setAttribute('aria-expanded', 'true');
+      cerrar!.hidden = false;
+      raiz.dataset.live = '';
+
+      // Si el sitio empezara a bloquear el embebido, el `load` puede no llegar
+      // (o llegar con una página de error). A los 6 s ofrecemos la salida.
+      aviso = window.setTimeout(() => {
+        if (pieNormal) pieNormal.hidden = true;
+        if (pieBloqueado) pieBloqueado.hidden = false;
+      }, TIEMPO_DE_GRACIA);
+    }
+
+    function volverACaptura() {
+      window.clearTimeout(aviso);
+      iframe?.remove();
+      iframe = null;
+      captura!.hidden = false;
+      cerrar!.hidden = true;
+      abrir!.hidden = false;
+      abrir!.setAttribute('aria-expanded', 'false');
+      delete raiz.dataset.live;
+      if (pieNormal) pieNormal.hidden = false;
+      if (pieBloqueado) pieBloqueado.hidden = true;
+      abrir!.focus();
+    }
+
+    abrir.addEventListener('click', mostrarSitio);
+    cerrar.addEventListener('click', volverACaptura);
+  });
+</script>

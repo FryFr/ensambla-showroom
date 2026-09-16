@@ -1,0 +1,24 @@
+---
+// Sección de la Home: trabajos REALES de clientes, publicados y en línea.
+// Va justo después del hero porque es la prueba más dura que tenemos;
+// las demos (ficticias) siguen más abajo, en su propio menú bento.
+import { trabajos } from '../../data/trabajos';
+import TrabajoCard from './TrabajoCard.astro';
+---
+
+<section id="trabajos" class="mx-auto max-w-6xl scroll-mt-20 px-5 pt-6 pb-10">
+  <div class="mb-8 max-w-2xl">
+    <p class="techlabel">Trabajos reales</p>
+    <h2 class="mt-1 font-display text-2xl font-bold sm:text-3xl">
+      Y esto ya está en línea.
+    </h2>
+    <p class="mt-2 text-ink-muted">
+      Sitios de clientes, publicados y funcionando hoy. No son demos: puedes abrirlos, navegarlos y
+      comprobarlos tú mismo.
+    </p>
+  </div>
+
+  <div class="grid gap-5 md:grid-cols-2">
+    {trabajos.map((trabajo) => <TrabajoCard trabajo={trabajo} />)}
+  </div>
+</section>
